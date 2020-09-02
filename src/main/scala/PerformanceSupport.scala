@@ -14,10 +14,10 @@ trait PerformanceSupport {
 
   var RANDOM = new Random
 
-  def printExecTime(process: => Unit)(i: Int): Long = {
+  def printExecTime(process: () => Unit)(i: Int): Long = {
     val start = System.currentTimeMillis
 
-    process
+    process()
 
     val procTime = System.currentTimeMillis - start
 

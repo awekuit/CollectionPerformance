@@ -28,13 +28,13 @@ trait SetPerformance extends PerformanceSupport {
 
     for (i <- 1 to 100) {
       hashResult =
-        hashResult.+:(printExecTime(addSetProc(eHash)(SIZE_10000))(i))
+        hashResult.+:(printExecTime(() => addSetProc(eHash)(SIZE_10000))(i))
       listResult =
-        listResult.+:(printExecTime(addSetProc(eList)(SIZE_10000))(i))
+        listResult.+:(printExecTime(() => addSetProc(eList)(SIZE_10000))(i))
       treeResult =
-        treeResult.+:(printExecTime(addSetProc(eTree)(SIZE_10000))(i))
+        treeResult.+:(printExecTime(() => addSetProc(eTree)(SIZE_10000))(i))
       bitResult =
-        bitResult.+:(printExecTime(addSetProc(eBit)(SIZE_10000))(i))
+        bitResult.+:(printExecTime(() => addSetProc(eBit)(SIZE_10000))(i))
     }
 
     printAverage(
@@ -58,13 +58,13 @@ trait SetPerformance extends PerformanceSupport {
     // ListSetが遅すぎるので、計測を10回に減らす
     for (i <- 1 to 10) {
       hashResult =
-        hashResult.+:(printExecTime(addSetProc(eHash)(SIZE_100000))(i))
+        hashResult.+:(printExecTime(() => addSetProc(eHash)(SIZE_100000))(i))
       listResult =
-        listResult.+:(printExecTime(addSetProc(eList)(SIZE_100000))(i))
+        listResult.+:(printExecTime(() => addSetProc(eList)(SIZE_100000))(i))
       treeResult =
-        treeResult.+:(printExecTime(addSetProc(eTree)(SIZE_100000))(i))
+        treeResult.+:(printExecTime(() => addSetProc(eTree)(SIZE_100000))(i))
       bitResult =
-        bitResult.+:(printExecTime(addSetProc(eBit)(SIZE_100000))(i))
+        bitResult.+:(printExecTime(() => addSetProc(eBit)(SIZE_100000))(i))
     }
 
     printAverage(
@@ -115,10 +115,14 @@ trait SetPerformance extends PerformanceSupport {
     bitResult = List.empty[Long]
 
     for (i <- 1 to 100) {
-      hashResult = hashResult.+:(printExecTime(dataAccess(hashSet_10000)(1))(i))
-      listResult = listResult.+:(printExecTime(dataAccess(listSet_10000)(1))(i))
-      treeResult = treeResult.+:(printExecTime(dataAccess(treeSet_10000)(1))(i))
-      bitResult = bitResult.+:(printExecTime(dataAccess(bitSet_10000)(1))(i))
+      hashResult =
+        hashResult.+:(printExecTime(() => dataAccess(hashSet_10000)(1))(i))
+      listResult =
+        listResult.+:(printExecTime(() => dataAccess(listSet_10000)(1))(i))
+      treeResult =
+        treeResult.+:(printExecTime(() => dataAccess(treeSet_10000)(1))(i))
+      bitResult =
+        bitResult.+:(printExecTime(() => dataAccess(bitSet_10000)(1))(i))
     }
 
     printAverage(
@@ -141,16 +145,16 @@ trait SetPerformance extends PerformanceSupport {
 
     for (i <- 1 to 100) {
       hashResult = hashResult.+:(
-        printExecTime(dataAccess(hashSet_10000)(SIZE_10000 / 2))(i)
+        printExecTime(() => dataAccess(hashSet_10000)(SIZE_10000 / 2))(i)
       )
       listResult = listResult.+:(
-        printExecTime(dataAccess(listSet_10000)(SIZE_10000 / 2))(i)
+        printExecTime(() => dataAccess(listSet_10000)(SIZE_10000 / 2))(i)
       )
       treeResult = treeResult.+:(
-        printExecTime(dataAccess(treeSet_10000)(SIZE_10000 / 2))(i)
+        printExecTime(() => dataAccess(treeSet_10000)(SIZE_10000 / 2))(i)
       )
       bitResult = bitResult.+:(
-        printExecTime(dataAccess(bitSet_10000)(SIZE_10000 / 2))(i)
+        printExecTime(() => dataAccess(bitSet_10000)(SIZE_10000 / 2))(i)
       )
     }
 
@@ -173,14 +177,18 @@ trait SetPerformance extends PerformanceSupport {
     bitResult = List.empty[Long]
 
     for (i <- 1 to 100) {
-      hashResult =
-        hashResult.+:(printExecTime(dataAccess(hashSet_10000)(SIZE_10000))(i))
-      listResult =
-        listResult.+:(printExecTime(dataAccess(listSet_10000)(SIZE_10000))(i))
-      treeResult =
-        treeResult.+:(printExecTime(dataAccess(treeSet_10000)(SIZE_10000))(i))
-      bitResult =
-        bitResult.+:(printExecTime(dataAccess(bitSet_10000)(SIZE_10000))(i))
+      hashResult = hashResult.+:(
+        printExecTime(() => dataAccess(hashSet_10000)(SIZE_10000))(i)
+      )
+      listResult = listResult.+:(
+        printExecTime(() => dataAccess(listSet_10000)(SIZE_10000))(i)
+      )
+      treeResult = treeResult.+:(
+        printExecTime(() => dataAccess(treeSet_10000)(SIZE_10000))(i)
+      )
+      bitResult = bitResult.+:(
+        printExecTime(() => dataAccess(bitSet_10000)(SIZE_10000))(i)
+      )
     }
 
     printAverage(
@@ -201,12 +209,22 @@ trait SetPerformance extends PerformanceSupport {
     bitResult = List.empty[Long]
 
     for (i <- 1 to 100) {
-      hashResult = hashResult.+:(printExecTime(dataAccess(hashSet_100000)(1))(i))
-      treeResult = treeResult.+:(printExecTime(dataAccess(treeSet_100000)(1))(i))
-      bitResult = bitResult.+:(printExecTime(dataAccess(bitSet_100000)(1))(i))
+      hashResult =
+        hashResult.+:(printExecTime(() => dataAccess(hashSet_100000)(1))(i))
+      treeResult =
+        treeResult.+:(printExecTime(() => dataAccess(treeSet_100000)(1))(i))
+      bitResult =
+        bitResult.+:(printExecTime(() => dataAccess(bitSet_100000)(1))(i))
     }
 
-    printAverage("HashSet", hashResult, "TreeSet", treeResult, "BitSet", bitResult)
+    printAverage(
+      "HashSet",
+      hashResult,
+      "TreeSet",
+      treeResult,
+      "BitSet",
+      bitResult
+    )
 
     println(s"対象件数: ${SIZE_100000}件 対象キー：中間に登録した要素")
 
@@ -216,17 +234,24 @@ trait SetPerformance extends PerformanceSupport {
 
     for (i <- 1 to 100) {
       hashResult = hashResult.+:(
-        printExecTime(dataAccess(hashSet_100000)(SIZE_100000 / 2))(i)
+        printExecTime(() => dataAccess(hashSet_100000)(SIZE_100000 / 2))(i)
       )
       treeResult = treeResult.+:(
-        printExecTime(dataAccess(treeSet_100000)(SIZE_100000 / 2))(i)
+        printExecTime(() => dataAccess(treeSet_100000)(SIZE_100000 / 2))(i)
       )
       bitResult = bitResult.+:(
-        printExecTime(dataAccess(bitSet_100000)(SIZE_100000 / 2))(i)
+        printExecTime(() => dataAccess(bitSet_100000)(SIZE_100000 / 2))(i)
       )
     }
 
-    printAverage("HashSet", hashResult, "TreeSet", treeResult, "BitSet", bitResult)
+    printAverage(
+      "HashSet",
+      hashResult,
+      "TreeSet",
+      treeResult,
+      "BitSet",
+      bitResult
+    )
 
     println(s"対象件数: ${SIZE_100000}件 対象キー：最後に登録した要素")
 
@@ -235,15 +260,25 @@ trait SetPerformance extends PerformanceSupport {
     bitResult = List.empty[Long]
 
     for (i <- 1 to 100) {
-      hashResult =
-        hashResult.+:(printExecTime(dataAccess(hashSet_100000)(SIZE_100000))(i))
-      treeResult =
-        treeResult.+:(printExecTime(dataAccess(treeSet_100000)(SIZE_100000))(i))
-      bitResult =
-        bitResult.+:(printExecTime(dataAccess(bitSet_100000)(SIZE_100000))(i))
+      hashResult = hashResult.+:(
+        printExecTime(() => dataAccess(hashSet_100000)(SIZE_100000))(i)
+      )
+      treeResult = treeResult.+:(
+        printExecTime(() => dataAccess(treeSet_100000)(SIZE_100000))(i)
+      )
+      bitResult = bitResult.+:(
+        printExecTime(() => dataAccess(bitSet_100000)(SIZE_100000))(i)
+      )
     }
 
-    printAverage("HashSet", hashResult, "TreeSet", treeResult, "BitSet", bitResult)
+    printAverage(
+      "HashSet",
+      hashResult,
+      "TreeSet",
+      treeResult,
+      "BitSet",
+      bitResult
+    )
   }
 
   def setSequentialAccess() = {
@@ -289,13 +324,13 @@ trait SetPerformance extends PerformanceSupport {
 
     for (i <- 1 to 100) {
       hashResult =
-        hashResult.+:(printExecTime(sequentialAccess(hashSet_100000))(i))
+        hashResult.+:(printExecTime(() => sequentialAccess(hashSet_100000))(i))
       listResult =
-        listResult.+:(printExecTime(sequentialAccess(listSet_100000))(i))
+        listResult.+:(printExecTime(() => sequentialAccess(listSet_100000))(i))
       treeResult =
-        treeResult.+:(printExecTime(sequentialAccess(treeSet_100000))(i))
+        treeResult.+:(printExecTime(() => sequentialAccess(treeSet_100000))(i))
       bitResult =
-        bitResult.+:(printExecTime(sequentialAccess(bitSet_100000))(i))
+        bitResult.+:(printExecTime(() => sequentialAccess(bitSet_100000))(i))
     }
 
     printAverage(
@@ -318,13 +353,13 @@ trait SetPerformance extends PerformanceSupport {
 
     for (i <- 1 to 100) {
       hashResult =
-        hashResult.+:(printExecTime(sequentialAccess(hashSet_500000))(i))
+        hashResult.+:(printExecTime(() => sequentialAccess(hashSet_500000))(i))
       listResult =
-        listResult.+:(printExecTime(sequentialAccess(listSet_500000))(i))
+        listResult.+:(printExecTime(() => sequentialAccess(listSet_500000))(i))
       treeResult =
-        treeResult.+:(printExecTime(sequentialAccess(treeSet_500000))(i))
+        treeResult.+:(printExecTime(() => sequentialAccess(treeSet_500000))(i))
       bitResult =
-        bitResult.+:(printExecTime(sequentialAccess(bitSet_500000))(i))
+        bitResult.+:(printExecTime(() => sequentialAccess(bitSet_500000))(i))
     }
 
     printAverage(
@@ -347,13 +382,13 @@ trait SetPerformance extends PerformanceSupport {
 
     for (i <- 1 to 100) {
       hashResult =
-        hashResult.+:(printExecTime(sequentialAccess(hashSet_1000000))(i))
+        hashResult.+:(printExecTime(() => sequentialAccess(hashSet_1000000))(i))
       listResult =
-        listResult.+:(printExecTime(sequentialAccess(listSet_1000000))(i))
+        listResult.+:(printExecTime(() => sequentialAccess(listSet_1000000))(i))
       treeResult =
-        treeResult.+:(printExecTime(sequentialAccess(treeSet_1000000))(i))
+        treeResult.+:(printExecTime(() => sequentialAccess(treeSet_1000000))(i))
       bitResult =
-        bitResult.+:(printExecTime(sequentialAccess(bitSet_1000000))(i))
+        bitResult.+:(printExecTime(() => sequentialAccess(bitSet_1000000))(i))
     }
 
     printAverage(
@@ -374,12 +409,14 @@ trait SetPerformance extends PerformanceSupport {
     bitResult = List.empty[Long]
 
     for (i <- 1 to 100) {
-      hashResult =
-        hashResult.+:(printExecTime(sequentialAccess(hashSet_10000000))(i))
-      treeResult =
-        treeResult.+:(printExecTime(sequentialAccess(treeSet_10000000))(i))
+      hashResult = hashResult.+:(
+        printExecTime(() => sequentialAccess(hashSet_10000000))(i)
+      )
+      treeResult = treeResult.+:(
+        printExecTime(() => sequentialAccess(treeSet_10000000))(i)
+      )
       bitResult =
-        bitResult.+:(printExecTime(sequentialAccess(bitSet_10000000))(i))
+        bitResult.+:(printExecTime(() => sequentialAccess(bitSet_10000000))(i))
     }
 
     printAverage(
@@ -390,7 +427,7 @@ trait SetPerformance extends PerformanceSupport {
       "BitSet",
       bitResult
     )
-   }
+  }
 
   def addSetProc(set: Set[Int])(size: Int): Set[Int] = {
     var s = set

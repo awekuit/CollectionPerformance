@@ -25,11 +25,11 @@ trait MapPerformance extends PerformanceSupport {
 
     for (i <- 1 to 100) {
       hashResult =
-        hashResult.+:(printExecTime(addMapProc(eHash)(SIZE_10000))(i))
+        hashResult.+:(printExecTime(() => addMapProc(eHash)(SIZE_10000))(i))
       listResult =
-        listResult.+:(printExecTime(addMapProc(eList)(SIZE_10000))(i))
+        listResult.+:(printExecTime(() => addMapProc(eList)(SIZE_10000))(i))
       treeResult =
-        treeResult.+:(printExecTime(addMapProc(eTree)(SIZE_10000))(i))
+        treeResult.+:(printExecTime(() => addMapProc(eTree)(SIZE_10000))(i))
     }
 
     printAverage(
@@ -50,11 +50,11 @@ trait MapPerformance extends PerformanceSupport {
     // ListMapが遅すぎるので、計測を10回に減らす
     for (i <- 1 to 10) {
       hashResult =
-        hashResult.+:(printExecTime(addMapProc(eHash)(SIZE_100000))(i))
+        hashResult.+:(printExecTime(() => addMapProc(eHash)(SIZE_100000))(i))
       listResult =
-        listResult.+:(printExecTime(addMapProc(eList)(SIZE_100000))(i))
+        listResult.+:(printExecTime(() => addMapProc(eList)(SIZE_100000))(i))
       treeResult =
-        treeResult.+:(printExecTime(addMapProc(eTree)(SIZE_100000))(i))
+        treeResult.+:(printExecTime(() => addMapProc(eTree)(SIZE_100000))(i))
     }
 
     printAverage(
@@ -97,9 +97,12 @@ trait MapPerformance extends PerformanceSupport {
     treeResult = List.empty[Long]
 
     for (i <- 1 to 100) {
-      hashResult = hashResult.+:(printExecTime(keyAccess(hashMap_10000)(1))(i))
-      listResult = listResult.+:(printExecTime(keyAccess(listMap_10000)(1))(i))
-      treeResult = treeResult.+:(printExecTime(keyAccess(treeMap_10000)(1))(i))
+      hashResult =
+        hashResult.+:(printExecTime(() => keyAccess(hashMap_10000)(1))(i))
+      listResult =
+        listResult.+:(printExecTime(() => keyAccess(listMap_10000)(1))(i))
+      treeResult =
+        treeResult.+:(printExecTime(() => keyAccess(treeMap_10000)(1))(i))
     }
 
     printAverage(
@@ -119,13 +122,13 @@ trait MapPerformance extends PerformanceSupport {
 
     for (i <- 1 to 100) {
       hashResult = hashResult.+:(
-        printExecTime(keyAccess(hashMap_10000)(SIZE_10000 / 2))(i)
+        printExecTime(() => keyAccess(hashMap_10000)(SIZE_10000 / 2))(i)
       )
       listResult = listResult.+:(
-        printExecTime(keyAccess(listMap_10000)(SIZE_10000 / 2))(i)
+        printExecTime(() => keyAccess(listMap_10000)(SIZE_10000 / 2))(i)
       )
       treeResult = treeResult.+:(
-        printExecTime(keyAccess(treeMap_10000)(SIZE_10000 / 2))(i)
+        printExecTime(() => keyAccess(treeMap_10000)(SIZE_10000 / 2))(i)
       )
     }
 
@@ -145,12 +148,15 @@ trait MapPerformance extends PerformanceSupport {
     treeResult = List.empty[Long]
 
     for (i <- 1 to 100) {
-      hashResult =
-        hashResult.+:(printExecTime(keyAccess(hashMap_10000)(SIZE_10000))(i))
-      listResult =
-        listResult.+:(printExecTime(keyAccess(listMap_10000)(SIZE_10000))(i))
-      treeResult =
-        treeResult.+:(printExecTime(keyAccess(treeMap_10000)(SIZE_10000))(i))
+      hashResult = hashResult.+:(
+        printExecTime(() => keyAccess(hashMap_10000)(SIZE_10000))(i)
+      )
+      listResult = listResult.+:(
+        printExecTime(() => keyAccess(listMap_10000)(SIZE_10000))(i)
+      )
+      treeResult = treeResult.+:(
+        printExecTime(() => keyAccess(treeMap_10000)(SIZE_10000))(i)
+      )
     }
 
     printAverage(
@@ -168,8 +174,10 @@ trait MapPerformance extends PerformanceSupport {
     treeResult = List.empty[Long]
 
     for (i <- 1 to 100) {
-      hashResult = hashResult.+:(printExecTime(keyAccess(hashMap_100000)(1))(i))
-      treeResult = treeResult.+:(printExecTime(keyAccess(treeMap_100000)(1))(i))
+      hashResult =
+        hashResult.+:(printExecTime(() => keyAccess(hashMap_100000)(1))(i))
+      treeResult =
+        treeResult.+:(printExecTime(() => keyAccess(treeMap_100000)(1))(i))
     }
 
     printAverage("HashMap", hashResult, "TreeMap", treeResult)
@@ -181,10 +189,10 @@ trait MapPerformance extends PerformanceSupport {
 
     for (i <- 1 to 100) {
       hashResult = hashResult.+:(
-        printExecTime(keyAccess(hashMap_100000)(SIZE_100000 / 2))(i)
+        printExecTime(() => keyAccess(hashMap_100000)(SIZE_100000 / 2))(i)
       )
       treeResult = treeResult.+:(
-        printExecTime(keyAccess(treeMap_100000)(SIZE_100000 / 2))(i)
+        printExecTime(() => keyAccess(treeMap_100000)(SIZE_100000 / 2))(i)
       )
     }
 
@@ -196,10 +204,12 @@ trait MapPerformance extends PerformanceSupport {
     treeResult = List.empty[Long]
 
     for (i <- 1 to 100) {
-      hashResult =
-        hashResult.+:(printExecTime(keyAccess(hashMap_100000)(SIZE_100000))(i))
-      treeResult =
-        treeResult.+:(printExecTime(keyAccess(treeMap_100000)(SIZE_100000))(i))
+      hashResult = hashResult.+:(
+        printExecTime(() => keyAccess(hashMap_100000)(SIZE_100000))(i)
+      )
+      treeResult = treeResult.+:(
+        printExecTime(() => keyAccess(treeMap_100000)(SIZE_100000))(i)
+      )
     }
 
     printAverage("HashMap", hashResult, "TreeMap", treeResult)
@@ -211,9 +221,9 @@ trait MapPerformance extends PerformanceSupport {
 
     for (i <- 1 to 100) {
       hashResult =
-        hashResult.+:(printExecTime(keyAccess(hashMap_1000000)(1))(i))
+        hashResult.+:(printExecTime(() => keyAccess(hashMap_1000000)(1))(i))
       treeResult =
-        treeResult.+:(printExecTime(keyAccess(treeMap_1000000)(1))(i))
+        treeResult.+:(printExecTime(() => keyAccess(treeMap_1000000)(1))(i))
     }
 
     printAverage("HashMap", hashResult, "TreeMap", treeResult)
@@ -225,10 +235,10 @@ trait MapPerformance extends PerformanceSupport {
 
     for (i <- 1 to 100) {
       hashResult = hashResult.+:(
-        printExecTime(keyAccess(hashMap_1000000)(SIZE_1000000 / 2))(i)
+        printExecTime(() => keyAccess(hashMap_1000000)(SIZE_1000000 / 2))(i)
       )
       treeResult = treeResult.+:(
-        printExecTime(keyAccess(treeMap_1000000)(SIZE_1000000 / 2))(i)
+        printExecTime(() => keyAccess(treeMap_1000000)(SIZE_1000000 / 2))(i)
       )
     }
 
@@ -241,10 +251,10 @@ trait MapPerformance extends PerformanceSupport {
 
     for (i <- 1 to 100) {
       hashResult = hashResult.+:(
-        printExecTime(keyAccess(hashMap_1000000)(SIZE_1000000))(i)
+        printExecTime(() => keyAccess(hashMap_1000000)(SIZE_1000000))(i)
       )
       treeResult = treeResult.+:(
-        printExecTime(keyAccess(treeMap_1000000)(SIZE_1000000))(i)
+        printExecTime(() => keyAccess(treeMap_1000000)(SIZE_1000000))(i)
       )
     }
 
@@ -285,11 +295,11 @@ trait MapPerformance extends PerformanceSupport {
 
     for (i <- 1 to 100) {
       hashResult =
-        hashResult.+:(printExecTime(sequentialAccess(hashMap_100000))(i))
+        hashResult.+:(printExecTime(() => sequentialAccess(hashMap_100000))(i))
       listResult =
-        listResult.+:(printExecTime(sequentialAccess(listMap_100000))(i))
+        listResult.+:(printExecTime(() => sequentialAccess(listMap_100000))(i))
       treeResult =
-        treeResult.+:(printExecTime(sequentialAccess(treeMap_100000))(i))
+        treeResult.+:(printExecTime(() => sequentialAccess(treeMap_100000))(i))
     }
 
     printAverage(
@@ -309,11 +319,11 @@ trait MapPerformance extends PerformanceSupport {
 
     for (i <- 1 to 100) {
       hashResult =
-        hashResult.+:(printExecTime(sequentialAccess(hashMap_500000))(i))
+        hashResult.+:(printExecTime(() => sequentialAccess(hashMap_500000))(i))
       listResult =
-        listResult.+:(printExecTime(sequentialAccess(listMap_500000))(i))
+        listResult.+:(printExecTime(() => sequentialAccess(listMap_500000))(i))
       treeResult =
-        treeResult.+:(printExecTime(sequentialAccess(treeMap_500000))(i))
+        treeResult.+:(printExecTime(() => sequentialAccess(treeMap_500000))(i))
     }
 
     printAverage(
@@ -332,9 +342,9 @@ trait MapPerformance extends PerformanceSupport {
 
     for (i <- 1 to 100) {
       hashResult =
-        hashResult.+:(printExecTime(sequentialAccess(hashMap_1000000))(i))
+        hashResult.+:(printExecTime(() => sequentialAccess(hashMap_1000000))(i))
       treeResult =
-        treeResult.+:(printExecTime(sequentialAccess(treeMap_1000000))(i))
+        treeResult.+:(printExecTime(() => sequentialAccess(treeMap_1000000))(i))
     }
 
     printAverage("HashMap", hashResult, "TreeMap", treeResult)
@@ -345,10 +355,12 @@ trait MapPerformance extends PerformanceSupport {
     treeResult = List.empty[Long]
 
     for (i <- 1 to 100) {
-      hashResult =
-        hashResult.+:(printExecTime(sequentialAccess(hashMap_10000000))(i))
-      treeResult =
-        treeResult.+:(printExecTime(sequentialAccess(treeMap_10000000))(i))
+      hashResult = hashResult.+:(
+        printExecTime(() => sequentialAccess(hashMap_10000000))(i)
+      )
+      treeResult = treeResult.+:(
+        printExecTime(() => sequentialAccess(treeMap_10000000))(i)
+      )
     }
 
     printAverage("HashMap", hashResult, "TreeMap", treeResult)
@@ -376,11 +388,13 @@ trait MapPerformance extends PerformanceSupport {
 
     for (i <- 1 to 100) {
       listResult =
-        listResult.+:(printExecTime(addMapProc(eList)(SIZE_1000000))(i))
-      vectorResult =
-        vectorResult.+:(printExecTime(addMapProc(eVector)(SIZE_1000000))(i))
-      treeSeqResult =
-        treeSeqResult.+:(printExecTime(addMapProc(eTreeSeq)(SIZE_1000000))(i))
+        listResult.+:(printExecTime(() => addMapProc(eList)(SIZE_1000000))(i))
+      vectorResult = vectorResult.+:(
+        printExecTime(() => addMapProc(eVector)(SIZE_1000000))(i)
+      )
+      treeSeqResult = treeSeqResult.+:(
+        printExecTime(() => addMapProc(eTreeSeq)(SIZE_1000000))(i)
+      )
     }
 
     printAverage(
@@ -406,9 +420,13 @@ trait MapPerformance extends PerformanceSupport {
     treeSeqResult = List.empty[Long]
 
     for (i <- 1 to 100) {
-      listResult = listResult.+:(printExecTime(keyAccess(listMap_1000000)(1))(i))
-      vectorResult = vectorResult.+:(printExecTime(keyAccess(vectorMap_1000000)(1))(i))
-      treeSeqResult = treeSeqResult.+:(printExecTime(keyAccess(treeSeqMap_1000000)(1))(i))
+      listResult =
+        listResult.+:(printExecTime(() => keyAccess(listMap_1000000)(1))(i))
+      vectorResult =
+        vectorResult.+:(printExecTime(() => keyAccess(vectorMap_1000000)(1))(i))
+      treeSeqResult = treeSeqResult.+:(
+        printExecTime(() => keyAccess(treeSeqMap_1000000)(1))(i)
+      )
     }
 
     printAverage(
@@ -427,9 +445,15 @@ trait MapPerformance extends PerformanceSupport {
     treeSeqResult = List.empty[Long]
 
     for (i <- 1 to 100) {
-      listResult = listResult.+:(printExecTime(keyAccess(listMap_1000000)(SIZE_1000000/2))(i))
-      vectorResult = vectorResult.+:(printExecTime(keyAccess(vectorMap_1000000)(SIZE_1000000/2))(i))
-      treeSeqResult = treeSeqResult.+:(printExecTime(keyAccess(treeSeqMap_1000000)(SIZE_1000000/2))(i))
+      listResult = listResult.+:(
+        printExecTime(() => keyAccess(listMap_1000000)(SIZE_1000000 / 2))(i)
+      )
+      vectorResult = vectorResult.+:(
+        printExecTime(() => keyAccess(vectorMap_1000000)(SIZE_1000000 / 2))(i)
+      )
+      treeSeqResult = treeSeqResult.+:(
+        printExecTime(() => keyAccess(treeSeqMap_1000000)(SIZE_1000000 / 2))(i)
+      )
     }
 
     printAverage(
@@ -448,9 +472,15 @@ trait MapPerformance extends PerformanceSupport {
     treeSeqResult = List.empty[Long]
 
     for (i <- 1 to 100) {
-      listResult = listResult.+:(printExecTime(keyAccess(listMap_1000000)(SIZE_1000000))(i))
-      vectorResult = vectorResult.+:(printExecTime(keyAccess(vectorMap_1000000)(SIZE_1000000))(i))
-      treeSeqResult = treeSeqResult.+:(printExecTime(keyAccess(treeSeqMap_1000000)(SIZE_1000000))(i))
+      listResult = listResult.+:(
+        printExecTime(() => keyAccess(listMap_1000000)(SIZE_1000000))(i)
+      )
+      vectorResult = vectorResult.+:(
+        printExecTime(() => keyAccess(vectorMap_1000000)(SIZE_1000000))(i)
+      )
+      treeSeqResult = treeSeqResult.+:(
+        printExecTime(() => keyAccess(treeSeqMap_1000000)(SIZE_1000000))(i)
+      )
     }
 
     printAverage(
@@ -468,11 +498,13 @@ trait MapPerformance extends PerformanceSupport {
 
     for (i <- 1 to 100) {
       listResult =
-        listResult.+:(printExecTime(sequentialAccess(listMap_1000000))(i))
-      vectorResult =
-        vectorResult.+:(printExecTime(sequentialAccess(vectorMap_1000000))(i))
-      treeSeqResult =
-        treeSeqResult.+:(printExecTime(sequentialAccess(treeSeqMap_1000000))(i))
+        listResult.+:(printExecTime(() => sequentialAccess(listMap_1000000))(i))
+      vectorResult = vectorResult.+:(
+        printExecTime(() => sequentialAccess(vectorMap_1000000))(i)
+      )
+      treeSeqResult = treeSeqResult.+:(
+        printExecTime(() => sequentialAccess(treeSeqMap_1000000))(i)
+      )
     }
 
     printAverage(
